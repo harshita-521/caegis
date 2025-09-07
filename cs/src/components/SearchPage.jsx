@@ -8,13 +8,14 @@ import axios from 'axios';
 import Graph1 from './Graph1';
 import HeatMapGraph from './HeatMapGraph';
 import Graph2 from './Graph2';
+import MyWordCloud from './WordCloud';
 
 function SearchPage() {
     const [tweets , setTweets] =useState([]); 
     const [userData  , setUserData] = useState([]);
     const fetchDefaultTweets = async () => {
         try {
-            const res = await axios.get('http://localhost:8000/search/scheduled/data');
+            const res = await axios.get("http://135.235.216.119/search/scheduled/data");
             setTweets(res.data.result_data);
             setUserData(res.data.user_activity_data);
 
@@ -99,12 +100,7 @@ function SearchPage() {
 
                     <div className="card1 card">
                         <div className="card-text">
-                            <span>
-                                Powerful, yet Simple to Use
-                            </span>
-                            <p>
-                                Bring the power of AI and geospatial data to your fingertips with our intuitive interface.
-                            </p>
+                            <MyWordCloud tweets={tweets} />
 
                         </div>
                     </div>
