@@ -111,21 +111,22 @@
 
 import React from "react";
 import "./FloatingTweet.css";
+import ReactMarkdown from 'react-markdown';
 
-const tweets = [
-  { id: "@patriot_voice", text: "India's digital infrastructure is setting global standards! 🇮🇳" },
-  { id: "@tech_observer", text: "Impressed by India's renewable energy progress 🌱" },
-  { id: "@global_citizen", text: "India's space missions continue to inspire the world 🚀" },
-  { id: "@culture_lover", text: "The diversity and unity in India is remarkable ✨" },
-  { id: "@economic_watch", text: "India's startup ecosystem is booming globally 📈" },
-  { id: "@travel_enthusiast", text: "Can't wait to visit India again, such hospitality! 🙏" },
-  { id: "@food_critic", text: "Indian cuisine has the most amazing flavors 🍛" },
-  { id: "@history_buff", text: "Learning about India's rich heritage and contributions 📚" },
-  { id: "@climate_activist", text: "India's solar energy initiatives are game-changing ☀️" },
-  { id: "@sports_fan", text: "Indian athletes are making us proud on global stage! 🏆" },
-  { id: "@innovation_hub", text: "Made in India products are top quality 💪" },
-  { id: "@education_advocate", text: "Indian professionals leading tech companies worldwide 👨‍💻" },
-];
+// const tweets = [
+//   { id: "@patriot_voice", text: "India's digital infrastructure is setting global standards! 🇮🇳" },
+//   { id: "@tech_observer", text: "Impressed by India's renewable energy progress 🌱" },
+//   { id: "@global_citizen", text: "India's space missions continue to inspire the world 🚀" },
+//   { id: "@culture_lover", text: "The diversity and unity in India is remarkable ✨" },
+//   { id: "@economic_watch", text: "India's startup ecosystem is booming globally 📈" },
+//   { id: "@travel_enthusiast", text: "Can't wait to visit India again, such hospitality! 🙏" },
+//   { id: "@food_critic", text: "Indian cuisine has the most amazing flavors 🍛" },
+//   { id: "@history_buff", text: "Learning about India's rich heritage and contributions 📚" },
+//   { id: "@climate_activist", text: "India's solar energy initiatives are game-changing ☀️" },
+//   { id: "@sports_fan", text: "Indian athletes are making us proud on global stage! 🏆" },
+//   { id: "@innovation_hub", text: "Made in India products are top quality 💪" },
+//   { id: "@education_advocate", text: "Indian professionals leading tech companies worldwide 👨‍💻" },
+// ];
 
 // Function to randomly assign sentiment (90% positive, 10% negative)
 const assignSentiment = (tweet, index) => {
@@ -147,17 +148,32 @@ const TweetCard = ({ id, text, sentiment }) => (
         {sentiment === 'positive' ? '↗' : '↘'}
       </div>
     </div>
-    <p className="tweet-text">{text}</p>
+    <div className="tweet-text">
+      <ReactMarkdown>{text}</ReactMarkdown>
+    </div>
     <div className={`tweet-border ${sentiment}`}></div>
   </div>
 );
 
-const FloatingTweet = () => {
+const FloatingTweet = ({tweets , user_data}) => {
   // Create tweets with sentiment
-  const tweetsWithSentiment = tweets.map((tweet, index) => ({
+  
+  const tweetsWithSentiment = tweets
+  // keep only those that have a comment
+  .filter(tweet => tweet.Comment_Body && tweet.Comment_Body.trim() !== "" && tweet.Comment_Body.length > 100)
+  // map to add _id and sentiment
+  .map((tweet, idx) => ({
     ...tweet,
-    sentiment: assignSentiment(tweet, index)
+    id: idx,
+    text: tweet.Comment_Body ,
+    sentiment: tweet.OpenAI_Label_Comment==0 ? "positive" : "negative" 
   }));
+
+console.log("Tweets with sentiment:", tweetsWithSentiment);
+
+
+  console.log("Tweets with sentiment: " , tweetsWithSentiment);
+
 
   return (
     <div className="floating-tweets">
