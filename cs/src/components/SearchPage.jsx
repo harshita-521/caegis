@@ -6,6 +6,8 @@ import { ReactTyped } from "react-typed";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Graph1 from './Graph1';
+import HeatMapGraph from './HeatMapGraph';
+import Graph2 from './Graph2';
 
 function SearchPage() {
     const [tweets , setTweets] =useState([]); 
@@ -74,37 +76,23 @@ function SearchPage() {
                 <div className="card-container">
                     <div className="card1 card">
                         <div className="card-text">
-                            <span>
-                                Powerful, yet Simple to Use
-                            </span>
-                            <p>
-                                Bring the power of AI and geospatial data to your fingertips with our intuitive interface.
-                            </p>
+                           <Graph1 tweets={tweets} />
 
                         </div>
                     </div>
 
                     <div className="card1 card">
                         <div className="card-text">
-                            <span>
-                                Powerful, yet Simple to Use
-                            </span>
-                            <p>
-                                Bring the power of AI and geospatial data to your fingertips with our intuitive interface.
-                            </p>
-
+                           
+                        
+                       <HeatMapGraph tweets={tweets} />
                         </div>
                         
                     </div>
 
                     <div className="card1 card">
                         <div className="card-text">
-                            <span>
-                                Powerful, yet Simple to Use
-                            </span>
-                            <p>
-                                Bring the power of AI and geospatial data to your fingertips with our intuitive interface.
-                            </p>
+                           <Graph2 tweets={tweets}/>
 
                         </div>
                     </div>
