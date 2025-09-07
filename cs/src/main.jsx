@@ -6,7 +6,7 @@ import Navbar from './components/Navbar.jsx'
 import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './Layout.jsx'
 // import Landing from './components/Landing.jsx'
-import SearchPage from './components/searchPage.jsx'
+import SearchPage from './components/SearchPage.jsx'
 import ErrorPage from './components/ErrorPage.jsx'
 import Homepage from './components/Homepage.jsx'
 

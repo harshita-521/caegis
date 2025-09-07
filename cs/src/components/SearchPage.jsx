@@ -85,7 +85,7 @@ function SearchPage() {
                     </div>
 
                     <div className="card1 card">
-                        {/* <div className="card-text">
+                        <div className="card-text">
                             <span>
                                 Powerful, yet Simple to Use
                             </span>
@@ -93,8 +93,8 @@ function SearchPage() {
                                 Bring the power of AI and geospatial data to your fingertips with our intuitive interface.
                             </p>
 
-                        </div> */}
-                        <Graph1 tweets={tweets} />
+                        </div>
+                        
                     </div>
 
                     <div className="card1 card">

@@ -1,31 +1,39 @@
 import React from 'react';
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-
-// Register chart.js components
-ChartJS.register(ArcElement, Tooltip, Legend);
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 function Graph1({ tweets }) {
-  // Count positive/negative/neutral based on labels
-  const positive = tweets.filter(tweet => tweet.OpenAI_Label_Comment === 0).length;
-  const negative = tweets.filter(tweet => tweet.OpenAI_Label_Comment === 1).length;
-console.log("Positive:", positive, "Negative:", negative);
-  const data = {
-    labels: [ 'Positive', 'Negative'],
-    datasets: [
-      {
-        label: 'Sentiment Distribution',
-        data: [ positive, negative],
-        backgroundColor: [ '#4caf50', '#f44336'], // yellow, green, red
-        borderColor: ['#fff', '#fff'],
-        borderWidth: 1,
-      },
-    ],
-  };
+  const positive_cmnts = tweets.filter(tweet => tweet.OpenAI_Label_Comment === 0).length;
+  const negative_cmnts = tweets.filter(tweet => tweet.OpenAI_Label_Comment === 1).length;
+
+  const positive_posts = tweets.filter(tweet => tweet.OpenAI_Label_Post === 0).length; // assuming 0 = positive
+  const negative_posts = tweets.filter(tweet => tweet.OpenAI_Label_Post === 1).length; // assuming 1 = negative
+
+  const data = [
+    {
+      name: 'Positive',
+      posts: positive_posts,
+      comments: positive_cmnts,
+    },
+    {
+      name: 'Negative',
+      posts: negative_posts,
+      comments: negative_cmnts,
+    },
+  ];
 
   return (
-    <div style={{ width: '400px', height: '400px', margin: 'auto' }}>
-      <Pie data={data} />
+    <div style={{ width: '100%', height: 300 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="posts" fill="#4caf50" />
+          <Bar dataKey="comments" fill="#f44336" />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }
