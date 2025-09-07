@@ -8,17 +8,40 @@ import axios from 'axios';
 import Graph1 from './Graph1';
 import HeatMapGraph from './HeatMapGraph';
 import Graph2 from './Graph2';
+import TopUsers from './topUsers';
 
 function SearchPage() {
     const [tweets , setTweets] =useState([]); 
     const [userData  , setUserData] = useState([]);
+    const [negComment, setnegComment] = useState([]);
+
     const fetchDefaultTweets = async () => {
         try {
-            const res = await axios.get('http://localhost:8000/search/scheduled/data');
+            const res = await axios.get('http://135.235.216.119/search/scheduled/data');
+          
             setTweets(res.data.result_data);
             setUserData(res.data.user_activity_data);
 
-            
+            const filteredAuthors = res.data
+          .filter(item => item.result_data.OpenAI_Label_Comment === 1)
+          .map(item => ({
+            author: item.result_data.Comment_Author,
+            body: item.result_data.Comment_Body,
+          })
+        );
+
+         const uniqueItems = Object.values(
+      filteredItems.reduce((acc, curr) => {
+        if (!acc[curr.author]) {
+          acc[curr.author] = curr;
+        }
+        return acc;
+      }, {})
+    );
+        setnegComment(uniqueAuthors);
+
+
+
         } catch (error) {
             console.error("Error fetching default tweets:", error);
         }
@@ -103,7 +126,26 @@ function SearchPage() {
                                 Powerful, yet Simple to Use
                             </span>
                             <p>
-                                Bring the power of AI and geospatial data to your fingertips with our intuitive interface.
+                                <h2>Top Negative Comments</h2>
+      <ul>
+        {negComment.map((data, index) => (
+          <li key={index}>
+           <strong>{data.author}: </strong>{data.body}</li>
+        ))}
+      </ul>
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div className="card1 card">
+                        <div className="card-text">
+                            <span>
+                                Powerful, yet Simple to Use
+                            </span>
+                            <p>
+                                <h2>Top User </h2>
+                                <TopUsers userData={userData}/>
                             </p>
 
                         </div>
