@@ -8,7 +8,7 @@ import axios from 'axios';
 import Graph1 from './Graph1';
 import HeatMapGraph from './HeatMapGraph';
 import Graph2 from './Graph2';
-import TopUsers from './topUsers';
+import MyWordCloud from './WordCloud';
 
 function SearchPage() {
     const [tweets , setTweets] =useState([]); 
@@ -17,8 +17,7 @@ function SearchPage() {
 
     const fetchDefaultTweets = async () => {
         try {
-            const res = await axios.get('http://135.235.216.119/search/scheduled/data');
-          
+            const res = await axios.get("http://135.235.216.119/search/scheduled/data");
             setTweets(res.data.result_data);
             setUserData(res.data.user_activity_data);
 
@@ -122,31 +121,7 @@ function SearchPage() {
 
                     <div className="card1 card">
                         <div className="card-text">
-                            <span>
-                                Powerful, yet Simple to Use
-                            </span>
-                            <p>
-                                <h2>Top Negative Comments</h2>
-      <ul>
-        {negComment.map((data, index) => (
-          <li key={index}>
-           <strong>{data.author}: </strong>{data.body}</li>
-        ))}
-      </ul>
-                            </p>
-
-                        </div>
-                    </div>
-
-                    <div className="card1 card">
-                        <div className="card-text">
-                            <span>
-                                Powerful, yet Simple to Use
-                            </span>
-                            <p>
-                                <h2>Top User </h2>
-                                <TopUsers userData={userData}/>
-                            </p>
+                            <MyWordCloud tweets={tweets} />
 
                         </div>
                     </div>
