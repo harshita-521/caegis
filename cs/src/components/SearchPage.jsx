@@ -9,6 +9,7 @@ import Graph1 from './Graph1';
 import HeatMapGraph from './HeatMapGraph';
 import Graph2 from './Graph2';
 import MyWordCloud from './WordCloud';
+import NetworkGraph from './Network';
 
 function SearchPage() {
     const [tweets , setTweets] =useState([]); 
@@ -49,9 +50,9 @@ function SearchPage() {
             .filter((item) => item);
             console.log("Search Term Array:", itemsArray);
             if (radio === "Keywords") {
-            const res = await axios.post("http://localhost:8000/search/keywords", {
+            const res = await axios.post("http://135.235.216.119/search/keywords", {
                 keywords: itemsArray,
-                num_posts: 50,
+                num_posts: 5,
                 num_comments: 10,
             });
 
@@ -168,7 +169,7 @@ function SearchPage() {
                     </div>
                     <div className="card1 card">
                         <div className="card-text">
-                            <MyWordCloud tweets={tweets} />
+                            <NetworkGraph />
 
                         </div>
                     </div>
