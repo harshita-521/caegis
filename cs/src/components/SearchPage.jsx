@@ -9,6 +9,7 @@ import Graph1 from './Graph1';
 import HeatMapGraph from './HeatMapGraph';
 import Graph2 from './Graph2';
 import MyWordCloud from './WordCloud';
+import TopUsers from './topUsers';
 
 function SearchPage() {
     const [tweets , setTweets] =useState([]); 
@@ -125,6 +126,31 @@ function SearchPage() {
 
                         </div>
                     </div>
+
+                    <div className="card1 card">
+                        <div className="card-text">
+<TopUsers userData={userData}/>
+                        </div>
+                    </div>
+
+                    <div className="card1 card">
+                        <div className="card-text">
+                            <span>
+                                Powerful, yet Simple to Use
+                            </span>
+                            <p>
+                                <h2>Top Negative Comments</h2>
+      <ul>
+        {negComment.map((data, index) => (
+          <li key={index}>
+           <strong>{data.author}: </strong>{data.body}</li>
+        ))}
+      </ul>
+                            </p>
+
+                        </div>
+                    </div>
+
                 </div>
             
 
