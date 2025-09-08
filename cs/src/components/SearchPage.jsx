@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { use, useCallback } from 'react'
 import './SearchPage.css'
 import FloatingTweet from './FloatingTweet'
 // import Typed from "react-typed";
@@ -13,9 +13,10 @@ import MyWordCloud from './WordCloud';
 function SearchPage() {
     const [tweets , setTweets] =useState([]); 
     const [userData  , setUserData] = useState([]);
+    const [searchTerm , setSearchTerm] = useState([]);
     const fetchDefaultTweets = async () => {
         try {
-            const res = await axios.get("http://135.235.216.119/search/scheduled/data");
+            const res = await axios.get("http://localhost:8000/search/scheduled/data");
             setTweets(res.data.result_data);
             setUserData(res.data.user_activity_data);
 
@@ -38,7 +39,40 @@ function SearchPage() {
         console.log("Updated userData:", userData);
     }, [userData]);
 
-    
+    const [ radio , setRadio] = useState("Keywords");
+
+    const handleSearch = () => { 
+       if( radio === "Keywords"){
+        const res = axios.post("http://localhost:8000/search/keywords" ,
+            {
+                "keywords" : searchTerm , 
+                "num_posts" : 50 ,
+                "num_comments" : 10 
+            }
+        )
+        setTweets(res.data.result_data);
+        setUserData(res.data.user_activity_data);
+       }else{
+        const res = axios.post("http://135.235.216.119/search/users/bulk" ,
+            {
+                "user_ids" : searchTerm 
+            }
+        )
+        setTweets(res.data.result_data);
+        setUserData(res.data.user_activity_data);
+       }
+    }
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        const itemsArray = value
+            .split(",")                  
+            .map((item) => item.trim())  
+            .filter((item) => item);     
+
+        setSearchTerm(itemsArray);   
+    };
+
 
     return (
         <div className="searchPage">
@@ -63,9 +97,33 @@ function SearchPage() {
                         className="search-input"
                         type="text"
                         placeholder="Search..."
+                        onChange={ handleChange}
                     />
 
-                    <button>S</button>
+                    <button
+                    onClick={handleSearch}
+                    >
+                    S</button>
+                </div>
+                <div style={{color : "white" , marginTop : "10px" , marginBottom : "10px" 
+                    , display : "flex" , justifyContent : "center"
+                }}>
+                    <label>
+                <input type = "radio" value={"Keywords"} name = "searchType" 
+                checked={radio === "Keywords"}
+                onChange = {(e) => setRadio(e.target.value)}
+                />
+                Keywords
+                </label>
+                <label>
+                <input type = "radio" value={"User"} name = "searchType" 
+                checked={radio === "User"}
+                onChange = {(e) => setRadio(e.target.value)}
+                />
+                User
+                </label>
+
+
                 </div>
 
                 <div className="floatingTw">
