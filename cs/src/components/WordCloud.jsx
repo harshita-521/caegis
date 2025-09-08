@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useMemo } from "react";
 import WordCloud from "wordcloud";
 import { removeStopwords } from "stopword";
 
-function MyWordCloud({ tweets = [] }) {
+function MyWordCloud({ tweets }) {
   const canvasRef = useRef(null);
 
   const wordList = useMemo(() => {
@@ -18,10 +18,10 @@ function MyWordCloud({ tweets = [] }) {
     // Collect all texts individually with label checks
     const allTexts = [];
     tweets.forEach((t) => {
-      if ((t.OpenAI_Label_Post === 1) && (t.Post_Title || t.Post_title)) {
+      if (t.OpenAI_Label_Post === 1 && (t.Post_Title || t.Post_title)) {
         allTexts.push(t.Post_Title || t.Post_title);
       }
-      if ((t.OpenAI_Label_Comment === 1) && t.Comment_Body) {
+      if (t.OpenAI_Label_Comment === 1 && t.Comment_Body) {
         allTexts.push(t.Comment_Body);
       }
     });
@@ -42,7 +42,7 @@ function MyWordCloud({ tweets = [] }) {
     const frequencyMap = {};
     words.forEach((word) => {
       const clean = word.toLowerCase().replace(/[^a-z0-9]/gi, "");
-      if (clean && clean.length >= 5) {   // ✅ only words with 5+ chars
+      if (clean && clean.length >= 5) {
         frequencyMap[clean] = (frequencyMap[clean] || 0) + 1;
       }
     });
@@ -55,10 +55,14 @@ function MyWordCloud({ tweets = [] }) {
 
   useEffect(() => {
     if (canvasRef.current && wordList.length) {
+      // 🔄 Clear the canvas before re-render
+      const ctx = canvasRef.current.getContext("2d");
+      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
       WordCloud(canvasRef.current, {
         list: wordList,
         gridSize: 8,
-        weightFactor: (size) => 14 + size * 10, // 🔑 bigger scaling
+        weightFactor: (size) => 14 + size * 10,
         fontFamily: "Arial, sans-serif",
         color: () =>
           [
@@ -73,13 +77,13 @@ function MyWordCloud({ tweets = [] }) {
             "#bcbd22",
             "#17becf",
           ][Math.floor(Math.random() * 10)],
-        rotateRatio: 0, // keep words horizontal
+        rotateRatio: 0,
         backgroundColor: "transparent",
         drawOutOfBound: false,
         click: (item) => console.log(`Clicked: ${item[0]} (${item[1]})`),
       });
     }
-  }, [wordList]);
+  }, [ tweets]);
 
   return (
     <canvas
