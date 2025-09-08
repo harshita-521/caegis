@@ -16,7 +16,7 @@ function SearchPage() {
     const [searchTerm , setSearchTerm] = useState([]);
     const fetchDefaultTweets = async () => {
         try {
-            const res = await axios.get("http://localhost:8000/search/scheduled/data");
+            const res = await axios.get("http://135.235.216.119/search/scheduled/data");
             setTweets(res.data.result_data);
             setUserData(res.data.user_activity_data);
 
@@ -41,36 +41,40 @@ function SearchPage() {
 
     const [ radio , setRadio] = useState("Keywords");
 
-    const handleSearch = () => { 
-       if( radio === "Keywords"){
-        const res = axios.post("http://localhost:8000/search/keywords" ,
-            {
-                "keywords" : searchTerm , 
-                "num_posts" : 50 ,
-                "num_comments" : 10 
+    const handleSearch = async () => {
+        try {
+            const itemsArray = searchTerm
+            .split(",")
+            .map((item) => item.trim())
+            .filter((item) => item);
+            console.log("Search Term Array:", itemsArray);
+            if (radio === "Keywords") {
+            const res = await axios.post("http://localhost:8000/search/keywords", {
+                keywords: itemsArray,
+                num_posts: 50,
+                num_comments: 10,
+            });
+
+            setTweets(res.data.result_data);
+            setUserData(res.data.user_activity_data);
+            console.log("Response data:", res.data.result_data);
+            } else {
+            const res = await axios.post("http://135.235.216.119/search/users/bulk", {
+                user_ids: itemsArray,
+            });
+
+            setTweets(res.data.result_data);
+            setUserData(res.data.user_activity_data);
+            console.log("Response data:", res.data.result_data);
             }
-        )
-        setTweets(res.data.result_data);
-        setUserData(res.data.user_activity_data);
-       }else{
-        const res = axios.post("http://135.235.216.119/search/users/bulk" ,
-            {
-                "user_ids" : searchTerm 
-            }
-        )
-        setTweets(res.data.result_data);
-        setUserData(res.data.user_activity_data);
-       }
-    }
+        } catch (error) {
+            console.error("Error during search:", error);
+        }
+    };
 
     const handleChange = (e) => {
-        const value = e.target.value;
-        const itemsArray = value
-            .split(",")                  
-            .map((item) => item.trim())  
-            .filter((item) => item);     
-
-        setSearchTerm(itemsArray);   
+        setSearchTerm(e.target.value);
+        
     };
 
 
@@ -156,6 +160,12 @@ function SearchPage() {
                         </div>
                     </div>
 
+                    <div className="card1 card">
+                        <div className="card-text">
+                            <MyWordCloud tweets={tweets} />
+
+                        </div>
+                    </div>
                     <div className="card1 card">
                         <div className="card-text">
                             <MyWordCloud tweets={tweets} />
