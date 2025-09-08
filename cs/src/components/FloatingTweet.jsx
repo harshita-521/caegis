@@ -1,4 +1,3 @@
-// import React, { useState, useEffect } from 'react';
 // import './FloatingTweet.css';
 
 // const FloatingTweet = () => {
@@ -109,7 +108,7 @@
 
 
 
-import React from "react";
+import React, { useEffect , useState} from "react";
 import "./FloatingTweet.css";
 import ReactMarkdown from 'react-markdown';
 
@@ -158,22 +157,32 @@ const TweetCard = ({ id, text, sentiment }) => (
 const FloatingTweet = ({tweets , user_data}) => {
   // Create tweets with sentiment
   
-  const tweetsWithSentiment = tweets
-  // keep only those that have a comment
-  .filter(tweet => tweet.Comment_Body && tweet.Comment_Body.trim() !== "" && tweet.Comment_Body.length > 100)
-  // map to add _id and sentiment
-  .map((tweet, idx) => ({
-    ...tweet,
-    id: idx,
-    text: tweet.Comment_Body ,
-    sentiment: tweet.OpenAI_Label_Comment==0 ? "positive" : "negative" 
-  }));
+  const [tweetsWithSentiment, setTweetsWithSentiment] = useState([]);
 
-console.log("Tweets with sentiment:", tweetsWithSentiment);
+  useEffect(() => {
+    if (!tweets || tweets.length === 0) {
+      setTweetsWithSentiment([]);
+      return;
+    }
 
+    const processed = tweets
+      .filter(
+        (tweet) =>
+          tweet.Comment_Body &&
+          tweet.Comment_Body.trim() !== "" &&
+          tweet.Comment_Body.length > 100
+      )
+      .map((tweet, idx) => ({
+        ...tweet,
+        id: idx,
+        text: tweet.Comment_Body,
+        sentiment: tweet.OpenAI_Label_Comment == 0 ? "positive" : "negative",
+      }));
 
-  console.log("Tweets with sentiment: " , tweetsWithSentiment);
+    setTweetsWithSentiment(processed);
 
+  }, [tweets]);
+  console.log("Tweets with Sentiment:", tweetsWithSentiment);
 
   return (
     <div className="floating-tweets">
@@ -204,4 +213,4 @@ console.log("Tweets with sentiment:", tweetsWithSentiment);
   );
 };
 
-export default FloatingTweet;
+export default React.memo(FloatingTweet);
