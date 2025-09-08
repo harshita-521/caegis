@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { use, useCallback } from 'react'
 import './SearchPage.css'
 import FloatingTweet from './FloatingTweet'
 // import Typed from "react-typed";
@@ -9,13 +9,12 @@ import Graph1 from './Graph1';
 import HeatMapGraph from './HeatMapGraph';
 import Graph2 from './Graph2';
 import MyWordCloud from './WordCloud';
-import TopUsers from './topUsers';
+import NetworkGraph from './Network';
 
 function SearchPage() {
     const [tweets , setTweets] =useState([]); 
     const [userData  , setUserData] = useState([]);
-    const [negComment, setnegComment] = useState([]);
-
+    const [searchTerm , setSearchTerm] = useState([]);
     const fetchDefaultTweets = async () => {
         try {
             const res = await axios.get("http://135.235.216.119/search/scheduled/data");
@@ -60,7 +59,44 @@ function SearchPage() {
         console.log("Updated userData:", userData);
     }, [userData]);
 
-    
+    const [ radio , setRadio] = useState("Keywords");
+
+    const handleSearch = async () => {
+        try {
+            const itemsArray = searchTerm
+            .split(",")
+            .map((item) => item.trim())
+            .filter((item) => item);
+            console.log("Search Term Array:", itemsArray);
+            if (radio === "Keywords") {
+            const res = await axios.post("http://135.235.216.119/search/keywords", {
+                keywords: itemsArray,
+                num_posts: 5,
+                num_comments: 10,
+            });
+
+            setTweets(res.data.result_data);
+            setUserData(res.data.user_activity_data);
+            console.log("Response data:", res.data.result_data);
+            } else {
+            const res = await axios.post("http://135.235.216.119/search/users/bulk", {
+                user_ids: itemsArray,
+            });
+
+            setTweets(res.data.result_data);
+            setUserData(res.data.user_activity_data);
+            console.log("Response data:", res.data.result_data);
+            }
+        } catch (error) {
+            console.error("Error during search:", error);
+        }
+    };
+
+    const handleChange = (e) => {
+        setSearchTerm(e.target.value);
+        
+    };
+
 
     return (
         <div className="searchPage">
@@ -85,9 +121,33 @@ function SearchPage() {
                         className="search-input"
                         type="text"
                         placeholder="Search..."
+                        onChange={ handleChange}
                     />
 
-                    <button>S</button>
+                    <button
+                    onClick={handleSearch}
+                    >
+                    S</button>
+                </div>
+                <div style={{color : "white" , marginTop : "10px" , marginBottom : "10px" 
+                    , display : "flex" , justifyContent : "center"
+                }}>
+                    <label>
+                <input type = "radio" value={"Keywords"} name = "searchType" 
+                checked={radio === "Keywords"}
+                onChange = {(e) => setRadio(e.target.value)}
+                />
+                Keywords
+                </label>
+                <label>
+                <input type = "radio" value={"User"} name = "searchType" 
+                checked={radio === "User"}
+                onChange = {(e) => setRadio(e.target.value)}
+                />
+                User
+                </label>
+
+
                 </div>
 
                 <div className="floatingTw">
@@ -126,31 +186,12 @@ function SearchPage() {
 
                         </div>
                     </div>
-
                     <div className="card1 card">
                         <div className="card-text">
-<TopUsers userData={userData}/>
-                        </div>
-                    </div>
-
-                    <div className="card1 card">
-                        <div className="card-text">
-                            <span>
-                                Powerful, yet Simple to Use
-                            </span>
-                            <p>
-                                <h2>Top Negative Comments</h2>
-      <ul>
-        {negComment.map((data, index) => (
-          <li key={index}>
-           <strong>{data.author}: </strong>{data.body}</li>
-        ))}
-      </ul>
-                            </p>
+                            <NetworkGraph />
 
                         </div>
                     </div>
-
                 </div>
             
 
