@@ -196,7 +196,7 @@ height: 410px;
     font-weight: 600;
 }
 
-.head-text, .search-bar, .floatingTw{
+.head-text, .search-bar{
     z-index: 5;
     position: relative;
 }

@@ -472,7 +472,7 @@ function SearchPage() {
 const LoadingOverlay = () => (
     <div style={{
         position: 'fixed',
-        top:'300px',
+        top:'0px',
         // left: 0,
         width: '100vw',
         height: '100vh',
