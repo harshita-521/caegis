@@ -529,7 +529,7 @@ function SearchPage() {
                         </div>
                     </div>
 
-                    <div className="card1 card">
+                    <div className="card2 card">
                         <div className="card-text">
                            
                         
@@ -539,26 +539,7 @@ function SearchPage() {
                         
                     </div>
 
-                    <div className="card1 card">
-                        <div className="card-text">
-                           <Graph2 tweets={tweets}/>
-
-                        </div>
-                    </div>
-
-                    <div className="card1 card">
-                        <div className="card-text">
-                            <MyWordCloud tweets={tweets} />
-
-                        </div>
-                    </div>
-                    <div className="card1 card">
-                        <div className="card-text">
-                            <NetworkGraph />
-                        </div>
-                    </div>
-                    
-                    <div className="card1 card">
+                    <div className="card3 card">
                         <div className="card-text">
                             <div style={{ padding: '20px' }}>
                                 <h3 style={{ 
@@ -642,7 +623,7 @@ function SearchPage() {
                         </div>
                     </div>
                     
-                    <div className="card1 card">
+                    <div className="card3 card">
                         <div className="card-text">
                             <div style={{ padding: '20px' }}>
                                 <h3 style={{ 
@@ -729,7 +710,7 @@ function SearchPage() {
                         </div>
                     </div>
                     
-                    <div className="card1 card">
+                    <div className="card3 card">
                         <div className="card-text">
                             <div style={{ padding: '20px' }}>
                                 <h3 style={{ 
@@ -823,6 +804,27 @@ function SearchPage() {
 
 
                     </div>
+                    <div className="card4 card">
+                        <div className="card-text">
+                           <Graph2 tweets={tweets}/>
+
+                        </div>
+                    </div>
+
+                   
+                    <div className="card5 card">
+                        <div className="card-text">
+                            <NetworkGraph />
+                        </div>
+                    </div>
+                    
+                     <div className="card6 card">
+                        <div className="card-text">
+                            <MyWordCloud tweets={tweets} />
+
+                        </div>
+                    </div>
+                    
                 </div>
             
 

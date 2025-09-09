@@ -72,8 +72,8 @@ function HeatMapGraph({ tweets }) {
     const xLabels = ["Users", "Posts", "Comments"];
     const yLabels = ["0-0.25", "0.25-0.50", "0.50-0.75", "0.75-1"];
 
-    const cellSize = 100;
-    const margin = { top: 60, right: 40, bottom: 40, left: 100 };
+    const cellSize = 60; // Reduced from 100
+    const margin = { top: 50, right: 30, bottom: 30, left: 80 }; // Reduced margins
     const width = cellSize * xLabels.length + margin.left + margin.right;
     const height = cellSize * yLabels.length + margin.top + margin.bottom;
 
@@ -144,7 +144,7 @@ function HeatMapGraph({ tweets }) {
           .attr("text-anchor", "middle")
           .attr("dominant-baseline", "middle")
           .attr("fill", textColor)
-          .style("font-size", "18px")
+          .style("font-size", "16px") // Reduced from 18px
           .style("font-weight", "bold")
           .style("text-shadow", textColor === "#ffffff" ? "1px 1px 2px rgba(0,0,0,0.3)" : "1px 1px 2px rgba(255,255,255,0.8)")
           .text(value);
@@ -160,7 +160,7 @@ function HeatMapGraph({ tweets }) {
       .attr("x", (_, i) => i * cellSize + margin.left + (cellSize - 2) / 2)
       .attr("y", margin.top - 15)
       .attr("text-anchor", "middle")
-      .style("font-size", "14px")
+      .style("font-size", "12px") // Reduced from 14px
       .style("font-weight", "600")
       .style("fill", "#2c3e50")
       .text((d) => d);
@@ -175,7 +175,7 @@ function HeatMapGraph({ tweets }) {
       .attr("y", (_, i) => i * cellSize + margin.top + (cellSize - 2) / 2)
       .attr("text-anchor", "end")
       .attr("dominant-baseline", "middle")
-      .style("font-size", "14px")
+      .style("font-size", "12px") // Reduced from 14px
       .style("font-weight", "600")
       .style("fill", "#2c3e50")
       .text((d) => d);
@@ -186,21 +186,22 @@ function HeatMapGraph({ tweets }) {
       .attr("x", width / 2)
       .attr("y", height - 10)
       .attr("text-anchor", "middle")
-      .style("font-size", "14px")
+      .style("font-size", "12px") // Reduced from 14px
       .style("font-weight", "500")
       .style("fill", "#7f8c8d")
       .text("Entity Types");
 
     svg
-      .append("text")
-      .attr("x", 20)
-      .attr("y", height / 2)
-      .attr("text-anchor", "middle")
-      .attr("transform", `rotate(-90, 20, ${height / 2})`)
-      .style("font-size", "14px")
-      .style("font-weight", "500")
-      .style("fill", "#7f8c8d")
-      .text("Sentiment Score Range");
+  .append("text")
+  .attr("x", 20)
+  .attr("y", height / 2)
+  .attr("text-anchor", "middle")
+  .attr("transform", `rotate(-90, 20, ${height / 2})`)
+  .style("font-size", "12px")
+  .style("font-weight", "500")
+  .style("fill", "#7f8c8d")
+  .text("Sentiment Score Range");
+
 
   }, [dataMatrix]);
 
@@ -210,7 +211,7 @@ function HeatMapGraph({ tweets }) {
       justifyContent: 'center',
       alignItems: 'center',
       padding: '20px',
-      backgroundColor: '#ffffff',
+      background : 'transparent' , 
       borderRadius: '12px',
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
       margin: '10px'

@@ -10,7 +10,7 @@ function Navbar() {
         <Link to="/">Home</Link>
         <a href="#about-section">About</a>
         <Link to="/search">Search</Link>
-        <Link to="/zyx">ZYX</Link>
+        <a href="#about-section">Features</a>
       </div>
       </div>
     </div>
