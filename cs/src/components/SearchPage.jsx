@@ -17,10 +17,38 @@ function SearchPage() {
     const [edges , setEdges] = useState([]) ; 
     const [centralityData, setCentralityData] = useState([]); // Store betweenness centrality results
     const [closenessData, setClosenessData] = useState([]); // Store closeness centrality results
-
+    const [listPost , setList] = useState([]);
     const [tweets , setTweets] =useState([]); 
     const [userData  , setUserData] = useState([]);
     const [searchTerm , setSearchTerm] = useState([]);
+    const getList = async()=>{
+        const temp = tweets.filter((item)=>{
+            return item.OpenAI_Label_Post === '1' ;
+
+        });
+        setList(temp) ;
+        
+    }
+    const [listComments, setListComments] = useState([]);
+
+    const getComments = async()=>{
+        const temp = tweets.filter((item)=>{
+            return item.OpenAI_Label_Post === '1' ;
+
+        });
+        setListComments(temp) ;
+        
+    } ; 
+
+    useEffect(()=>{
+        getList() ;
+        getComments() ; 
+    }, [tweets]);
+
+    useEffect(()=>{
+        console.log("List of posts:", listPost);
+    }, [tweets]); 
+
 
     const loadCSV = async () => {
         try {
@@ -520,7 +548,7 @@ function SearchPage() {
                                     textAlign: 'center',
                                     fontSize: '18px'
                                 }}>
-                                    Top 7 Flagged Users - Betweenness Centrality
+                                    Top 7 Flagged Users - Flow Control Index
                                 </h3>
                                 <div style={{ 
                                     maxHeight: '300px', 
@@ -594,11 +622,193 @@ function SearchPage() {
                             </div>
                         </div>
                     </div>
+                    
+                    <div className="card1 card">
+                        <div className="card-text">
+                            <div style={{ padding: '20px' }}>
+                                <h3 style={{ 
+                                    color: 'white', 
+                                    marginBottom: '15px',
+                                    textAlign: 'center',
+                                    fontSize: '18px'
+                                }}>
+                                    Top 7 Flagged Users - Proximity Centrality
+                                </h3>
+                                <div style={{ 
+                                    maxHeight: '300px', 
+                                    overflowY: 'auto', 
+                                    backgroundColor: 'rgba(255,255,255,0.1)', 
+                                    borderRadius: '8px', 
+                                    padding: '15px' 
+                                }}>
+                                    {closenessData && closenessData.length > 0 ? (
+                                        closenessData
+                                            .filter(user => user.flaggedStatus === true)
+                                            .slice(0, 7)
+                                            .map((user, index) => (
+                                                <div key={index} style={{
+                                                    backgroundColor: 'rgba(255,255,255,0.2)',
+                                                    margin: '8px 0',
+                                                    padding: '12px',
+                                                    borderRadius: '6px',
+                                                    color: 'white',
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center',
+                                                    border: '1px solid rgba(255,255,255,0.2)'
+                                                }}>
+                                                    <span style={{ 
+                                                        fontWeight: 'bold',
+                                                        fontSize: '16px',
+                                                        color: '#44ddff'
+                                                    }}>
+                                                        #{index + 1}
+                                                    </span>
+                                                    <span style={{ 
+                                                        flex: 1, 
+                                                        marginLeft: '15px',
+                                                        fontSize: '14px'
+                                                    }}>
+                                                        {user.username}
+                                                    </span>
+                                                    <span style={{ 
+                                                        backgroundColor: 'rgba(0,100,255,0.4)', 
+                                                        padding: '4px 8px', 
+                                                        borderRadius: '4px',
+                                                        fontSize: '12px',
+                                                        fontWeight: 'bold'
+                                                    }}>
+                                                        {user.score}
+                                                    </span>
+                                                </div>
+                                            ))
+                                    ) : (
+                                        <div style={{ 
+                                            color: 'white', 
+                                            textAlign: 'center', 
+                                            padding: '30px',
+                                            fontSize: '14px'
+                                        }}>
+                                            Loading closeness data...
+                                        </div>
+                                    )}
+                                    {closenessData && closenessData.filter(user => user.flaggedStatus === true).length === 0 && (
+                                        <div style={{ 
+                                            color: 'white', 
+                                            textAlign: 'center', 
+                                            padding: '30px',
+                                            fontSize: '14px'
+                                        }}>
+                                            No flagged users found
+                                        </div>
+                                    )}
+                                </div>
+
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="card1 card">
+                        <div className="card-text">
+                            <div style={{ padding: '20px' }}>
+                                <h3 style={{ 
+                                    color: 'white', 
+                                    marginBottom: '15px',
+                                    textAlign: 'center',
+                                    fontSize: '18px'
+                                }}>
+                                    Top 7 Negative Comments (OpenAI Labeled)
+                                </h3>
+                                <div style={{ 
+                                    maxHeight: '300px', 
+                                    overflowY: 'auto', 
+                                    backgroundColor: 'rgba(255,255,255,0.1)', 
+                                    borderRadius: '8px', 
+                                    padding: '15px' 
+                                }}>
+                                    {tweets && tweets.length > 0 ? (
+                                        tweets
+                                            .filter(tweet => tweet.OpenAI_Label_Comment === '1' && tweet.Comment_Body)
+                                            .sort((a, b) => parseFloat(b.Comment_Anti_India_Score || 0) - parseFloat(a.Comment_Anti_India_Score || 0))
+                                            .slice(0, 7)
+                                            .map((tweet, index) => (
+                                                <div key={index} style={{
+                                                    backgroundColor: 'rgba(255,255,255,0.2)',
+                                                    margin: '8px 0',
+                                                    padding: '12px',
+                                                    borderRadius: '6px',
+                                                    color: 'white',
+                                                    border: '1px solid rgba(255,255,255,0.2)'
+                                                }}>
+                                                    <div style={{ 
+                                                        display: 'flex', 
+                                                        justifyContent: 'space-between', 
+                                                        alignItems: 'flex-start',
+                                                        marginBottom: '8px'
+                                                    }}>
+                                                        <span style={{ 
+                                                            fontWeight: 'bold',
+                                                            fontSize: '16px',
+                                                            color: '#ffa726'
+                                                        }}>
+                                                            #{index + 1}
+                                                        </span>
+                                                        <span style={{ 
+                                                            backgroundColor: 'rgba(255,167,38,0.4)', 
+                                                            padding: '4px 8px', 
+                                                            borderRadius: '4px',
+                                                            fontSize: '12px',
+                                                            fontWeight: 'bold'
+                                                        }}>
+                                                            Score: {parseFloat(tweet.Comment_Anti_India_Score || 0).toFixed(3)}
+                                                        </span>
+                                                    </div>
+                                                    <div style={{ 
+                                                        fontSize: '13px',
+                                                        lineHeight: '1.4',
+                                                        color: '#e0e0e0',
+                                                        wordBreak: 'break-word'
+                                                    }}>
+                                                        {tweet.Comment_Body.length > 120 
+                                                            ? `${tweet.Comment_Body.substring(0, 120)}...` 
+                                                            : tweet.Comment_Body
+                                                        }
+                                                    </div>
+                                                </div>
+                                            ))
+                                    ) : (
+                                        <div style={{ 
+                                            color: 'white', 
+                                            textAlign: 'center', 
+                                            padding: '30px',
+                                            fontSize: '14px'
+                                        }}>
+                                            Loading comments data...
+                                        </div>
+                                    )}
+                                    {tweets && tweets.filter(tweet => tweet.OpenAI_Label_Comment === '1' && tweet.Comment_Body).length === 0 && (
+                                        <div style={{ 
+                                            color: 'white', 
+                                            textAlign: 'center', 
+                                            padding: '30px',
+                                            fontSize: '14px'
+                                        }}>
+                                            No negative comments found
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
                 </div>
             
 
         </div>
-    )
+    )   
 }
 
 export default SearchPage ; 
