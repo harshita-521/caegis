@@ -373,7 +373,7 @@ function SearchPage() {
 
     const fetchDefaultTweets = async () => {
         try {
-            const res = await axios.get("http://135.235.216.119/search/scheduled/data");
+            const res = await axios.get("localhost:8000/search/scheduled/data");
             setTweets(res.data.result_data);
             setUserData(res.data.user_activity_data);
 
@@ -436,7 +436,7 @@ function SearchPage() {
             .filter((item) => item);
             console.log("Search Term Array:", itemsArray);
             if (radio === "Keywords") {
-            const res = await axios.post("http://135.235.216.119/search/keywords", {
+            const res = await axios.post("localhost:8000/search/keywords", {
                 keywords: itemsArray,
                 num_posts: 5,
                 num_comments: 10,
@@ -446,7 +446,7 @@ function SearchPage() {
             setUserData(res.data.user_activity_data);
             console.log("Response data:", res.data.result_data);
             } else {
-            const res = await axios.post("http://135.235.216.119/search/users/bulk", {
+            const res = await axios.post("localhost:8000/search/users/bulk", {
                 user_ids: itemsArray,
             });
 
