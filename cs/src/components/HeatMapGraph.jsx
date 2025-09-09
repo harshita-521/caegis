@@ -10,9 +10,10 @@ function HeatMapGraph({ tweets }) {
 
     // === 1. Helper to bucket by negativity range ===
     const getBin = (score) => {
-      if (score <= 0.33) return "0-0.33";
-      if (score <= 0.67) return "0.33-0.67";
-      return "0.67-1";
+      if (score < 0.25) return "0-0.25";
+      if (score < 0.50) return "0.25-0.50";
+      if (score < 0.75) return "0.50-0.75";
+      return "0.75-1";
     };
 
     // === 2. Group entities ===
@@ -44,12 +45,12 @@ function HeatMapGraph({ tweets }) {
     const posts = processGroup(tweets, "Post_Anti_India_Score", "Post_Title");
 
     // === 3. Count distribution in bins ===
-    const bins = ["0-0.33", "0.33-0.67", "0.67-1"];
+    const bins = ["0-0.25", "0.25-0.50", "0.50-0.75", "0.75-1"];
     const entityTypes = ["Users", "Posts", "Comments"];
     const counts = {
-      Users: { "0-0.33": 0, "0.33-0.67": 0, "0.67-1": 0 },
-      Posts: { "0-0.33": 0, "0.33-0.67": 0, "0.67-1": 0 },
-      Comments: { "0-0.33": 0, "0.33-0.67": 0, "0.67-1": 0 },
+      Users: { "0-0.25": 0, "0.25-0.50": 0, "0.50-0.75": 0, "0.75-1": 0 },
+      Posts: { "0-0.25": 0, "0.25-0.50": 0, "0.50-0.75": 0, "0.75-1": 0 },
+      Comments: { "0-0.25": 0, "0.25-0.50": 0, "0.50-0.75": 0, "0.75-1": 0 },
     };
 
     users.forEach((u) => counts.Users[getBin(u.avgSentiment)]++);
@@ -69,7 +70,7 @@ function HeatMapGraph({ tweets }) {
     if (!dataMatrix.length) return;
 
     const xLabels = ["Users", "Posts", "Comments"];
-    const yLabels = ["0-0.33", "0.33-0.67", "0.67-1"];
+    const yLabels = ["0-0.25", "0.25-0.50", "0.50-0.75", "0.75-1"];
 
     const cellSize = 100;
     const margin = { top: 60, right: 40, bottom: 40, left: 100 };
