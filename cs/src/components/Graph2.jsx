@@ -48,9 +48,7 @@ function Graph2({ tweets }) {
 
   return (
     <div style={{ width: "100%", height: 350, backgroundColor: "#ffffff", padding: "10px", borderRadius: "8px" }}>
-      <h3 style={{ textAlign: 'center', marginBottom: '20px', color: '#2c3e50' }}>
-        Flagged Content Engagement Metrics
-      </h3>
+      
       <ResponsiveContainer>
         <BarChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />

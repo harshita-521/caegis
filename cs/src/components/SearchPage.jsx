@@ -11,6 +11,7 @@ import HeatMapGraph from './HeatMapGraph';
 import Graph2 from './Graph2';
 import MyWordCloud from './WordCloud';
 import NetworkGraph from './Network';
+import { Search, Loader2 } from 'lucide-react';
 
 function SearchPage() {
     const [users , setUsers] = useState([]) ; 
@@ -424,9 +425,11 @@ function SearchPage() {
     }, [closenessData]);
 
     const [ radio , setRadio] = useState("Keywords");
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSearch = async () => {
         try {
+             setIsLoading(true);
             const itemsArray = searchTerm
             .split(",")
             .map((item) => item.trim())
@@ -453,7 +456,9 @@ function SearchPage() {
             }
         } catch (error) {
             console.error("Error during search:", error);
-        }
+        }finally {
+        setIsLoading(false); 
+    }
     };
 
     const handleChange = (e) => {
@@ -462,12 +467,80 @@ function SearchPage() {
     };
 
 
+
+
+const LoadingOverlay = () => (
+    <div style={{
+        position: 'fixed',
+        top:'300px',
+        // left: 0,
+        width: '100vw',
+        height: '100vh',
+        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
+      display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 2,
+        backdropFilter: 'blur(5px)'
+    }}>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            padding: '40px',
+            borderRadius: '15px',
+            border: '1px solid rgba(255, 255, 255, 0.2)'
+        }}>
+            <Loader2 
+                size={48} 
+                color="#0b79b1" 
+                style={{
+                    animation: 'spin 1s linear infinite',
+                    marginBottom: '20px'
+                }}
+            />
+            <div style={{
+                color: 'white',
+                fontSize: '18px',
+                fontWeight: 'bold',
+                marginBottom: '10px'
+            }}>
+                Searching...
+            </div>
+            <div style={{
+                color: 'rgba(255, 255, 255, 0.8)',
+                fontSize: '14px',
+                textAlign: 'center'
+            }}>
+                Analyzing social media data
+            </div>
+            <div style={{
+                width: '200px',
+                height: '4px',
+                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                borderRadius: '2px',
+                marginTop: '20px',
+                overflow: 'hidden'
+            }}>
+                <div style={{
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, transparent, #0b79b1, transparent)',
+                    animation: 'loading-bar 1.5s infinite linear'
+                }} />
+            </div>
+        </div>
+    </div>
+);
+
     return (
         <div className="searchPage">
-
+ 
                 <div className="head-text">
                     <div className="heading">
-                        Blah Blah <span>{" "}
+                        Social <span>{" "}
                          <ReactTyped
         strings={["Insights", "Real-Time Updates"]}
         typeSpeed={150}
@@ -477,7 +550,7 @@ function SearchPage() {
       /></span>
                     </div>
                     <div className="heading-sub">
-                        Real-time updates from social media
+                       Live social media analysis
                     </div>
                 </div>
                 <div className="search-bar">
@@ -491,10 +564,9 @@ function SearchPage() {
                     <button
                     onClick={handleSearch}
                     >
-                    S</button>
-                </div>
-                <div style={{color : "white" , marginTop : "10px" , marginBottom : "10px" 
-                    , display : "flex" , justifyContent : "center"
+                    <Search size={16} color="#fff" /></button>
+                    <div className="radio-btn" style={{color : "white" , marginTop : "10px" , marginBottom : "10px" 
+                    , display : "flex" , justifyContent : "center" 
                 }}>
                     <label>
                 <input type = "radio" value={"Keywords"} name = "searchType" 
@@ -510,10 +582,10 @@ function SearchPage() {
                 />
                 User
                 </label>
-
-
                 </div>
-                    
+                </div>
+                
+                 
                 <div  className="floatingTw" >
                     <FloatingTweet tweets={tweets} user_data={userData} />
 
@@ -522,8 +594,21 @@ function SearchPage() {
             </div>
 
                 <div className="card-container">
+
+                  {isLoading && <LoadingOverlay />}
+<style jsx>{`
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    @keyframes loading-bar {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+`}</style>  
                     <div className="card1 card">
                         <div className="card-text">
+                            <p>Daily Post Time - Analysis</p>
                            <Graph1 tweets={tweets} />
 
                         </div>
@@ -531,7 +616,7 @@ function SearchPage() {
 
                     <div className="card2 card">
                         <div className="card-text">
-                           
+                         <p>Anti-India Content Distribution</p>  
                         
                        <HeatMapGraph tweets={tweets} />
                        
@@ -806,22 +891,27 @@ function SearchPage() {
                     </div>
                     <div className="card4 card">
                         <div className="card-text">
+                            <p>
+                    Flagged Content Engagement Metrics
+                                  </p>
                            <Graph2 tweets={tweets}/>
 
                         </div>
                     </div>
 
-                   
-                    <div className="card5 card">
+                     <div className="card6 card">
                         <div className="card-text">
-                            <NetworkGraph />
+                            <p>Most Frequently Used Anti-India Word From Posts </p>
+                            <MyWordCloud tweets={tweets} />
+
                         </div>
                     </div>
                     
-                     <div className="card6 card">
+                   
+                    <div className="card5 card">
                         <div className="card-text">
-                            <MyWordCloud tweets={tweets} />
-
+                            <p>User Connectivity Graph</p>
+                            <NetworkGraph />
                         </div>
                     </div>
                     

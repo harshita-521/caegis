@@ -1,5 +1,11 @@
 import React from 'react'
 import './About.css'
+import { Clock } from 'lucide-react';
+import { BarChart2 } from 'lucide-react';
+import { UserCheck } from 'lucide-react';
+import { Users } from 'lucide-react';
+
+
 
 function About() {
   return (
@@ -7,8 +13,7 @@ function About() {
     <div className="about-head">
         From Data to Decisions - Instantly
         <div className="about-subText">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, unde!
-        </div>  
+           Discover how our platform leverages advanced intelligence to monitor, analyze, and combat anti-India sentiments across social media in real time. </div>  
     </div>
 
 
@@ -17,54 +22,51 @@ function About() {
 
           <div class="about-card">
   <div class="about-card-icon">
-    <img src="icon.png" alt="AI Sentinel Icon" />
+    <Clock size={32} />
   </div>
   <span class="about-card-badge">Core Product</span>
-  <h2 class="about-card-title">AI Sentinel</h2>
+  <h2 class="about-card-title">Time-Based Posting Insights</h2>
   <p class="about-card-description">
-    Advanced machine learning algorithms that analyze social media content, identify anti-India sentiment patterns, and flag potential propaganda campaigns in real-time.
-  </p>
+    Analyze posting trends of anti-India content over time to detect peak activity and automate timely interventions. </p>
   <ul class="about-card-features">
-    <li>Real-time monitoring</li>
-    <li>Sentiment analysis</li>
-    <li>Pattern recognition</li>
-    <li>Multi-language support</li>
+    <li>Visualize hourly posting patterns</li>
+    <li>Identify peak times of anti-India content</li>
+    <li>Track changes over time for evolving behavior</li>
+    <li>Support automated scheduling for monitoring</li>
   </ul>
   <button class="about-card-button">Learn More</button>
 </div>
 
       <div class="about-card">
   <div class="about-card-icon">
-    <img src="icon.png" alt="AI Sentinel Icon" />
+    <BarChart2 size={32} />
   </div>
   <span class="about-card-badge">Core Product</span>
-  <h2 class="about-card-title">AI Sentinel</h2>
+  <h2 class="about-card-title">Anti-India Content Distribution</h2>
   <p class="about-card-description">
-    Advanced machine learning algorithms that analyze social media content, identify anti-India sentiment patterns, and flag potential propaganda campaigns in real-time.
-  </p>
+   Understand where anti-India sentiment is concentrated across social media: users, posts, and comments. </p>
   <ul class="about-card-features">
-    <li>Real-time monitoring</li>
-    <li>Sentiment analysis</li>
-    <li>Pattern recognition</li>
-    <li>Multi-language support</li>
+    <li>Breakdown of content by entity type</li>
+    <li>Measure volume of posts vs comments vs users</li>
+    <li>Pinpoint high-risk content areas</li>
+    <li>Prioritize actions based on distribution</li>
   </ul>
   <button class="about-card-button">Learn More</button>
 </div>
 
       <div class="about-card">
   <div class="about-card-icon">
-    <img src="icon.png" alt="AI Sentinel Icon" />
+    <UserCheck size={32} />
   </div>
   <span class="about-card-badge">Core Product</span>
-  <h2 class="about-card-title">AI Sentinel</h2>
+  <h2 class="about-card-title">Influential Flagged Users(Flow Control Index)</h2>
   <p class="about-card-description">
-    Advanced machine learning algorithms that analyze social media content, identify anti-India sentiment patterns, and flag potential propaganda campaigns in real-time.
-  </p>
+   Monitor top flagged users driving content propagation, ranked by their ability to influence information flow </p>
   <ul class="about-card-features">
-    <li>Real-time monitoring</li>
-    <li>Sentiment analysis</li>
-    <li>Pattern recognition</li>
-    <li>Multi-language support</li>
+    <li>Rank users by Flow Control Index</li>
+    <li>Detect users with high influence on content spread</li>
+    <li>Facilitate targeted moderation</li>
+    <li>Disrupt coordinated disinformation efforts</li>
   </ul>
   <button class="about-card-button">Learn More</button>
 </div>
@@ -72,18 +74,17 @@ function About() {
 
       <div class="about-card">
   <div class="about-card-icon">
-    <img src="icon.png" alt="AI Sentinel Icon" />
+   <Users size={32} />
   </div>
   <span class="about-card-badge">Core Product</span>
-  <h2 class="about-card-title">AI Sentinel</h2>
+  <h2 class="about-card-title">Influential Flagged Users (Proximity Centrality)</h2>
   <p class="about-card-description">
-    Advanced machine learning algorithms that analyze social media content, identify anti-India sentiment patterns, and flag potential propaganda campaigns in real-time.
-  </p>
+   Identify key flagged users central to the network, helping to focus resources on critical amplification nodes. </p>
   <ul class="about-card-features">
-    <li>Real-time monitoring</li>
-    <li>Sentiment analysis</li>
-    <li>Pattern recognition</li>
-    <li>Multi-language support</li>
+    <li>Highlight users central to interaction network</li>
+    <li>Measure closeness to other users</li>
+    <li>Understand user connectivity impact</li>
+    <li>Inform network disruption strategies</li>
   </ul>
   <button class="about-card-button">Learn More</button>
 </div>

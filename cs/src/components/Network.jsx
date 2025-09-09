@@ -75,7 +75,7 @@ function NetworkGraph() {
     loadData();
   }, []);
 
-  return <div ref={chartRef} style={{ width: "100%", height: "400px" }} />;
+  return <div ref={chartRef} style={{ width: "1100px", height: "400px" }} />;
 }
 
 export default NetworkGraph;

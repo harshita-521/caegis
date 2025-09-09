@@ -72,10 +72,10 @@ function HeatMapGraph({ tweets }) {
     const xLabels = ["Users", "Posts", "Comments"];
     const yLabels = ["0-0.25", "0.25-0.50", "0.50-0.75", "0.75-1"];
 
-    const cellSize = 60; // Reduced from 100
-    const margin = { top: 50, right: 30, bottom: 30, left: 80 }; // Reduced margins
-    const width = cellSize * xLabels.length + margin.left + margin.right;
-    const height = cellSize * yLabels.length + margin.top + margin.bottom;
+   const cellSize = 60;  // Bigger cells
+const margin = { top: 50, right: 50, bottom: 30, left: 100 };
+const width = cellSize * xLabels.length + margin.left + margin.right;
+const height = cellSize * yLabels.length + margin.top + margin.bottom;
 
     const svg = d3
       .select(svgRef.current)
@@ -102,8 +102,7 @@ function HeatMapGraph({ tweets }) {
       .attr("text-anchor", "middle")
       .style("font-size", "16px")
       .style("font-weight", "bold")
-      .style("fill", "#2c3e50")
-      .text("Anti-India Content Distribution");
+      .style("fill", "#2c3e50");
 
     // Cells with better styling
     dataMatrix.forEach((row, rowIndex) => {

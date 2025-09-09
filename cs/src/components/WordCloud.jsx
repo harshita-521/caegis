@@ -90,7 +90,7 @@ function MyWordCloud({ tweets }) {
       ref={canvasRef}
       width={800}
       height={500}
-      style={{ width: "100%", height: "500px" }}
+      style={{ width: "100%", height: "400px" }}
     />
   );
 }
